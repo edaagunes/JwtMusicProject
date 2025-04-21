@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+@await Component.InvokeAsync("_HeadComponentPartial")
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    @await Component.InvokeAsync("_HeaderComponentPartial")
+
+    @await Component.InvokeAsync("_BannerComponentPartial")
+
+    @await Component.InvokeAsync("_EventComponentPartial")
+
+    @await Component.InvokeAsync("_AboutComponentPartial")
+
+    @await Component.InvokeAsync("_SongComponentPartial")
+
+    @await Component.InvokeAsync("_CountDownComponentPartial")
+    
+    @await Component.InvokeAsync("_FooterComponentPartial")
+
+    @await Component.InvokeAsync("_ScriptComponentPartial")
+
+</body>
+
+</html>
