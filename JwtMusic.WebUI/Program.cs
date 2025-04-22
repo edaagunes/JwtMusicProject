@@ -1,7 +1,18 @@
+using JwtMusic.BusinessLayer.Container;
+using JwtMusic.DataAccessLayer.Abstract;
+using JwtMusic.DataAccessLayer.Context;
+using JwtMusic.DataAccessLayer.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<JwtMusicContext>();
+
+builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+
+builder.Services.ContainerDependencies();
 
 var app = builder.Build();
 
@@ -14,6 +25,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
