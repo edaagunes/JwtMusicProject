@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\JwtMusic.DataAccessLayer\JwtMusic.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\JwtMusic.DtoLayer\JwtMusic.DtoLayer.csproj" />
   </ItemGroup>
 
 </Project>

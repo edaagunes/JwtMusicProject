@@ -1,7 +1,9 @@
 using JwtMusic.BusinessLayer.Container;
+using JwtMusic.BusinessLayer.Mapping;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.DataAccessLayer.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddDbContext<JwtMusicContext>();
 builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
 
 builder.Services.ContainerDependencies();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
@@ -37,5 +41,15 @@ app.MapControllerRoute(
 	pattern: "{controller=Home}/{action=Index}/{id?}")
 	.WithStaticAssets();
 
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+		name: "areas",
+		pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+	endpoints.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

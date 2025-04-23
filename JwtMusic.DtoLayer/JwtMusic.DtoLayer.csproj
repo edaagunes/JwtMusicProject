@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="EventDtos\" />
+    <Folder Include="ContactDtos\" />
+    <Folder Include="CountDownDtos\" />
+    <Folder Include="DjInfoDtos\" />
+    <Folder Include="SongDtos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JwtMusic.EntityLayer\JwtMusic.EntityLayer.csproj" />
+  </ItemGroup>
+
+</Project>

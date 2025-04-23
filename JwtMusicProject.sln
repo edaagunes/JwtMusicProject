@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35728.132 d17.12
+VisualStudioVersion = 17.12.35728.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtMusic.EntityLayer", "JwtMusic.EntityLayer\JwtMusic.EntityLayer.csproj", "{82C7E883-55B0-42E4-8B37-4A7364A6D624}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtMusic.BusinessLayer", "JwtMusic.BusinessLayer\JwtMusic.BusinessLayer.csproj", "{1D14807F-918F-4939-A2B7-8189AAEAD23F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtMusic.WebUI", "JwtMusic.WebUI\JwtMusic.WebUI.csproj", "{BFDE92BA-B064-4A3C-AB43-35E9BC7831F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtMusic.DtoLayer", "JwtMusic.DtoLayer\JwtMusic.DtoLayer.csproj", "{4A9AB99E-C734-41A0-9ED7-BBFC66D4AAF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BFDE92BA-B064-4A3C-AB43-35E9BC7831F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFDE92BA-B064-4A3C-AB43-35E9BC7831F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFDE92BA-B064-4A3C-AB43-35E9BC7831F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9AB99E-C734-41A0-9ED7-BBFC66D4AAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9AB99E-C734-41A0-9ED7-BBFC66D4AAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9AB99E-C734-41A0-9ED7-BBFC66D4AAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9AB99E-C734-41A0-9ED7-BBFC66D4AAF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
