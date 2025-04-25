@@ -16,7 +16,8 @@ builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
 
 builder.Services.ContainerDependencies();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
 
 var app = builder.Build();
 
@@ -33,13 +34,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}")
-	.WithStaticAssets();
 
 app.UseEndpoints(endpoints =>
 {

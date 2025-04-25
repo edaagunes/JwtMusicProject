@@ -1,8 +1,53 @@
 ﻿@model List<ResultBannerDto>
 @{
-    ViewData["Title"] = "BannerList";
-    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+	ViewData["Title"] = "BannerList";
+	Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+	int count = 0;
 }
 
-<h1>BannerList</h1>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Banner Alanı</div>
+			</div>
+			<div class="card-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Alt Başlık</th>
+							<th scope="col">Başlık</th>
+							<th scope="col">Açıklama</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							count++;
+							<tr>
+								<td>@count</td>
+								<td>@item.SubTitle</td>
+								<td>@item.Title</td>
+								<td>@item.Description</td>
+								<td>
+									<a href="#" class="btn btn-danger">Sil</a>
+									<a href="#" class="btn btn-warning">Güncelle</a>									
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+				<a href="/Admin/Banner/CreateBanner" class="btn btn-secondary">
+					<span class="btn-label">
+						<i class="fa fa-plus"></i>
+					</span>
+					Yeni Banner Ekle
+				</a>
+			</div>
+		</div>
+	</div>
+
+</div>
 
