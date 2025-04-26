@@ -42,9 +42,71 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult CreateBanner(CreateBannerDto createBannerDto)
 		{
+			ViewBag.v1 = "Banner";
+			ViewBag.v2 = "Banner";
+			ViewBag.v3 = "Yeni Banner Ekle";
+
+			if (!ModelState.IsValid)
+			{
+				return View(createBannerDto);
+			}
+
 			var values = _mapper.Map<Banner>(createBannerDto);
 			_bannerService.TAdd(values);
 			return RedirectToAction("BannerList", "Banner", new { area = "Admin" });
 		}
+
+		[HttpGet]
+		public IActionResult UpdateBanner(int id)
+		{
+			ViewBag.v1 = "Banner";
+			ViewBag.v2 = "Banner";
+			ViewBag.v3 = "Banner Güncelle";
+
+			var values = _bannerService.TGetById(id);
+			var updateBannerDto = _mapper.Map<UpdateBannerDto>(values);
+			return View(updateBannerDto);
+		}
+
+		[HttpPost]
+		public IActionResult UpdateBanner(UpdateBannerDto updateBannerDto)
+		{
+			ViewBag.v1 = "Banner";
+			ViewBag.v2 = "Banner";
+			ViewBag.v3 = "Banner Güncelle";
+
+			if (!ModelState.IsValid)
+			{
+				return View(updateBannerDto);
+			}
+
+			var values = _bannerService.TGetById(updateBannerDto.BannerId);
+			_mapper.Map(updateBannerDto, values);
+			_bannerService.TUpdate(values);
+			return RedirectToAction("BannerList", "Banner", new { area = "Admin" });
+		}
+
+		[HttpPost]
+
+		public IActionResult DeleteBanner(int id)
+		{
+			var values = _bannerService.TGetById(id);
+			if (values != null)
+			{
+				// Silme işlemi yapılıyor
+				_bannerService.TDelete(values);
+
+				// Veritabanı silme işlemi başarılı oldu mu kontrol edin
+				var deletedBanner = _bannerService.TGetById(id); // Tekrar almayı deneyin
+				if (deletedBanner == null)
+				{
+					return Json(new { success = true });
+				}
+			}
+
+			return Json(new { success = false, message = "Silme işlemi sırasında bir hata oluştu." });
+		}
+
+
 	}
 }

@@ -1,11 +1,23 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FluentValidation.Resources;
 using JwtMusic.BusinessLayer.Container;
 using JwtMusic.BusinessLayer.Mapping;
+using JwtMusic.BusinessLayer.Validations.BannerValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.DataAccessLayer.Repositories;
-using System.Reflection;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
+
+builder.Services.AddControllersWithViews()
+	.AddFluentValidation(config =>
+	{
+		config.RegisterValidatorsFromAssemblyContaining<CreateBannerValidator>();
+		config.RegisterValidatorsFromAssemblyContaining<UpdateBannerValidator>();
+	});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -20,6 +32,8 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 
 var app = builder.Build();
+
+app.UseRequestLocalization();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

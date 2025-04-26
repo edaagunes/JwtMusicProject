@@ -1,5 +1,7 @@
-﻿using JwtMusic.BusinessLayer.Abstract;
+﻿using FluentValidation;
+using JwtMusic.BusinessLayer.Abstract;
 using JwtMusic.BusinessLayer.Concrete;
+using JwtMusic.BusinessLayer.Validations.BannerValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +29,11 @@ namespace JwtMusic.BusinessLayer.Container
 
 			services.AddScoped<ISongService, SongManager>();
 			services.AddScoped<ISongDal, EfSongDal>();
+
+			// Validators
+			services.AddValidatorsFromAssemblyContaining<CreateBannerValidator>();
+			services.AddValidatorsFromAssemblyContaining<UpdateBannerValidator>();
+
 		}
 	}
 }

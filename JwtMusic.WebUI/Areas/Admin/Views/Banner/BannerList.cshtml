@@ -32,8 +32,8 @@
 								<td>@item.Title</td>
 								<td>@item.Description</td>
 								<td>
-									<a href="#" class="btn btn-danger">Sil</a>
-									<a href="#" class="btn btn-warning">Güncelle</a>									
+									<a href="javascript:void(0);" class="btn btn-danger" data-url="/Admin/Banner/DeleteBanner/@item.BannerId">Sil</a>
+									<a href="/Admin/Banner/UpdateBanner/@item.BannerId" class="btn btn-warning">Güncelle</a>
 								</td>
 							</tr>
 						}
@@ -48,6 +48,66 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    $(document).on('click', '.btn-danger', function (e) {
+        e.preventDefault(); // Sayfa yeniden yüklenmesin
+
+        var deleteUrl = $(this).attr('data-url'); // Silme URL'sini al
+        swal({
+            title: "Emin misiniz?",
+            text: "Bu işlemi geri almanız mümkün olmayacak!",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "Hayır, iptal et!",
+                    className: "btn btn-danger",
+                },
+                confirm: {
+                    text: "Evet, sil!",
+                    className: "btn btn-success",
+                },
+            },
+        }).then((willDelete) => {
+            if (willDelete) {
+                // Silme işlemini onayladıysa, AJAX ile silme işlemi yapılır
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Başarılı!", "Veri başarıyla silindi.", "success")
+                                .then(function () {
+                                    // Sayfadan da öğeyi kaldır
+                                    $(e.target).closest('tr').remove();  // Silinen satırı tablodan kaldır
+                                });
+                        } else {
+                            swal("Hata!", response.message, "error");
+                        }
+                    },
+                    error: function () {
+                        swal("Hata!", "Bir hata oluştu. Lütfen tekrar deneyin.", "error");
+                    }
+                });
+            } else {
+                swal("İşlem iptal edildi!", {
+                    icon: "info",
+                    buttons: {
+                        confirm: {
+                            className: "btn btn-success",
+                        },
+                    },
+                }).then(function () {
+                    // Burada swal.close() kullanıyoruz, çünkü popup'ı iptal ettikten sonra kapanması gerek
+                    swal.hide();
+                });
+            }
+        });
+    });
+</script>
