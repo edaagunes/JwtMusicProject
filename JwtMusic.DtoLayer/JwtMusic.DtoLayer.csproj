@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="EventDtos\" />
-    <Folder Include="DjInfoDtos\" />
     <Folder Include="SongDtos\" />
   </ItemGroup>
 

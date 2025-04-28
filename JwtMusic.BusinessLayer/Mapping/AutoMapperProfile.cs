@@ -2,6 +2,7 @@
 using JwtMusic.DtoLayer.BannerDtos;
 using JwtMusic.DtoLayer.ContactDtos;
 using JwtMusic.DtoLayer.CountDownDtos;
+using JwtMusic.DtoLayer.DjInfoDtos;
 using JwtMusic.EntityLayer.Entities;
 
 
@@ -22,6 +23,10 @@ namespace JwtMusic.BusinessLayer.Mapping
 			CreateMap<CountDown, ResultCountDownDto>().ReverseMap();
 			CreateMap<CountDown, CreateCountDownDto>().ReverseMap();
 			CreateMap<CountDown, UpdateCountDownDto>().ReverseMap();
+
+			CreateMap<DjInfo, ResultDjInfoDto>().ReverseMap();
+			CreateMap<DjInfo, CreateDjInfoDto>().ReverseMap();
+			CreateMap<DjInfo, UpdateDjInfoDto>().ReverseMap();
 
 		}
 	}

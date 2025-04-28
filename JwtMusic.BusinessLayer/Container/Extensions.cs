@@ -4,6 +4,7 @@ using JwtMusic.BusinessLayer.Concrete;
 using JwtMusic.BusinessLayer.Validations.BannerValidations;
 using JwtMusic.BusinessLayer.Validations.ContactValidations;
 using JwtMusic.BusinessLayer.Validations.CountDownValidations;
+using JwtMusic.BusinessLayer.Validations.DjInfoValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,9 @@ namespace JwtMusic.BusinessLayer.Container
 			
 			services.AddValidatorsFromAssemblyContaining<CreateCountDownValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdateCountDownValidator>();
+
+			services.AddValidatorsFromAssemblyContaining<CreateDjInfoValidator>();
+			services.AddValidatorsFromAssemblyContaining<UpdateDjInfoValidator>();
 		}
 	}
 }

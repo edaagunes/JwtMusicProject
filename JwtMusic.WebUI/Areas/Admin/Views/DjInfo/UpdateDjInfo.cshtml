@@ -1,0 +1,42 @@
+﻿@model UpdateDjInfoDto
+@{
+    ViewData["Title"] = "UpdateDjInfo";
+    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title d-flex justify-content-center">Dj Bilgisi Güncelleme</div>
+			</div>
+			<form method="post">
+				<div class="card-body">
+					<div class="row justify-content-center">
+						<div class="col-md-12 col-lg-8">
+							<input type="hidden" asp-for="DjInfoId"/>
+							<div class="form-group">
+								<label>Dj Adı</label>
+								<input type="text"
+									   class="form-control"
+									   asp-for="Name" />
+								<span asp-validation-for="Name" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label>Açıklama</label>
+								<textarea class="form-control" asp-for="Description" rows="3">
+						  </textarea>
+								<span asp-validation-for="Description" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-action d-flex justify-content-center">
+					<button type="submit" class="btn btn-success">Kaydet</button>
+					<a href="/Admin/DjInfo/DjInfoList" class="btn btn-danger">Vazgeç</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
