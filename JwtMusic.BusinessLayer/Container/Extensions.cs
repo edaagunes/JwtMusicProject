@@ -2,6 +2,7 @@
 using JwtMusic.BusinessLayer.Abstract;
 using JwtMusic.BusinessLayer.Concrete;
 using JwtMusic.BusinessLayer.Validations.BannerValidations;
+using JwtMusic.BusinessLayer.Validations.ContactValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,8 @@ namespace JwtMusic.BusinessLayer.Container
 			services.AddValidatorsFromAssemblyContaining<CreateBannerValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdateBannerValidator>();
 
+			services.AddValidatorsFromAssemblyContaining<CreateContactValidator>();
+			services.AddValidatorsFromAssemblyContaining<UpdateContactValidator>();
 		}
 	}
 }

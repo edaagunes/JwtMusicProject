@@ -87,26 +87,19 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-
 		public IActionResult DeleteBanner(int id)
 		{
 			var values = _bannerService.TGetById(id);
 			if (values != null)
 			{
-				// Silme işlemi yapılıyor
 				_bannerService.TDelete(values);
-
-				// Veritabanı silme işlemi başarılı oldu mu kontrol edin
-				var deletedBanner = _bannerService.TGetById(id); // Tekrar almayı deneyin
+				var deletedBanner = _bannerService.TGetById(id);
 				if (deletedBanner == null)
 				{
 					return Json(new { success = true });
 				}
 			}
-
 			return Json(new { success = false, message = "Silme işlemi sırasında bir hata oluştu." });
 		}
-
-
 	}
 }
