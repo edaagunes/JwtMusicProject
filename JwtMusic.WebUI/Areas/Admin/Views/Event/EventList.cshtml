@@ -1,0 +1,113 @@
+﻿@model List<ResultEventDto>
+@{
+	ViewData["Title"] = "EventList";
+	Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+	int count = 0;
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Etkinlik Alanı</div>
+			</div>
+			<div class="card-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Etkinlik</th>
+							<th scope="col">Konum</th>
+							<th scope="col">Tarih</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							count++;
+							<tr>
+								<td>@count</td>
+								<td><img src="@item.ImageUrl" style="width:80px;height:80px" />@item.Name</td>
+								<td>@item.Location</td>
+								<td>@item.Date.ToShortDateString()</td>
+								<td>
+									<a href="javascript:void(0);" class="btn btn-danger" data-url="/Admin/Event/DeleteEvent/@item.EventId">Sil</a>
+									<a href="/Admin/Event/UpdateEvent/@item.EventId" class="btn btn-warning">Güncelle</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+				<a href="/Admin/Event/CreateEvent" class="btn btn-secondary">
+					<span class="btn-label">
+						<i class="fa fa-plus"></i>
+					</span>
+					Yeni Etkinlik Ekle
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	$(document).on('click', '.btn-danger', function (e) {
+		e.preventDefault(); // Sayfa yeniden yüklenmesin
+
+		var deleteUrl = $(this).attr('data-url'); // Silme URL'sini al
+		swal({
+			title: "Emin misiniz?",
+			text: "Bu işlemi geri almanız mümkün olmayacak!",
+			icon: "warning",
+			buttons: {
+				cancel: {
+					visible: true,
+					text: "Hayır, iptal et!",
+					className: "btn btn-danger",
+				},
+				confirm: {
+					text: "Evet, sil!",
+					className: "btn btn-success",
+				},
+			},
+		}).then((willDelete) => {
+			if (willDelete) {
+				// Silme işlemini onayladıysa, AJAX ile silme işlemi yapılır
+				$.ajax({
+					url: deleteUrl,
+					type: 'POST',
+					success: function (response) {
+						if (response.success) {
+							swal("Başarılı!", "Veri başarıyla silindi.", "success")
+								.then(function () {
+									// Sayfadan da öğeyi kaldır
+									$(e.target).closest('tr').remove();  // Silinen satırı tablodan kaldır
+								});
+						} else {
+							swal("Hata!", response.message, "error");
+						}
+					},
+					error: function () {
+						swal("Hata!", "Bir hata oluştu. Lütfen tekrar deneyin.", "error");
+					}
+				});
+			} else {
+				swal("İşlem iptal edildi!", {
+					icon: "info",
+					buttons: {
+						confirm: {
+							className: "btn btn-success",
+						},
+					},
+				}).then(function () {
+					swal.hide();
+				});
+			}
+		});
+	});
+</script>
+

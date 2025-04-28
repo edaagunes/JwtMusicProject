@@ -1,0 +1,64 @@
+﻿@model CreateEventDto
+@{
+    ViewData["Title"] = "CreateEvent";
+    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title d-flex justify-content-center">Yeni Etkinlik Ekle</div>
+			</div>
+			<form method="post">
+				<div class="card-body">
+					<div class="row justify-content-center">
+						<div class="col-md-12 col-lg-8">
+							<div class="form-group">
+								<label>Etkinlik Adı</label>
+								<input type="text"
+									   class="form-control"
+									   asp-for="Name" />
+								<span asp-validation-for="Name" class="text-danger"></span>
+							</div>
+							<div class="form-group form-inline">
+								<label class="col-md-3 col-form-label">Tarih</label>
+								<div class="col-md-9 p-0">
+									<input type="date"
+										   class="form-control input-full"
+										   asp-for="Date" />
+									<span asp-validation-for="Date" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="form-group form-inline">
+								<label class="col-md-3 col-form-label">Konum</label>
+								<div class="col-md-9 p-0">
+									<input type="text"
+										   class="form-control input-full"
+										   asp-for="Location" />
+									<span asp-validation-for="Location" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="form-group form-inline">
+								<label class="col-md-3 col-form-label">Görsel Url</label>
+								<div class="col-md-9 p-0">
+									<input type="text"
+										   class="form-control input-full"
+										   asp-for="ImageUrl" />
+									<span asp-validation-for="ImageUrl" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-action d-flex justify-content-center">
+					<button type="submit" class="btn btn-success">Kaydet</button>
+					<a href="/Admin/Event/EventList" class="btn btn-danger">Vazgeç</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
