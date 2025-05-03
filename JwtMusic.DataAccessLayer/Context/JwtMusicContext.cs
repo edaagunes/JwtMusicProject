@@ -1,4 +1,5 @@
 ﻿using JwtMusic.EntityLayer.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JwtMusic.DataAccessLayer.Context
 {
-	public class JwtMusicContext : DbContext
+	public class JwtMusicContext : IdentityDbContext<AppUser, AppRole, int>
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

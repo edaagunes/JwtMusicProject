@@ -1,16 +1,15 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using FluentValidation.Resources;
+﻿using FluentValidation.AspNetCore;
 using JwtMusic.BusinessLayer.Container;
 using JwtMusic.BusinessLayer.Mapping;
 using JwtMusic.BusinessLayer.Validations.BannerValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.DataAccessLayer.Repositories;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
+using JwtMusic.EntityLayer.Entities;
+using JwtMusic.WebUI.Helpers;
+using Microsoft.AspNetCore.Identity;
 
-var builder = WebApplication.CreateBuilder(args); 
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews()
 	.AddFluentValidation(config =>
@@ -24,14 +23,25 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<JwtMusicContext>();
 
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<JwtMusicContext>();
+
+var app = builder.Build();
+
+// ⬇️ Roller seed ediliyor
+using (var scope = app.Services.CreateScope())
+{
+	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+	await SeedRoles.InitializeAsync(roleManager);
+
+	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+	await SeedUsers.CreateAdminUserAsync(userManager);
+}
+
 builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
 
 builder.Services.ContainerDependencies();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-
-var app = builder.Build();
 
 app.UseRequestLocalization();
 
@@ -46,7 +56,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -60,4 +70,4 @@ app.UseEndpoints(endpoints =>
 		pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
-app.Run();
+await app.RunAsync();
