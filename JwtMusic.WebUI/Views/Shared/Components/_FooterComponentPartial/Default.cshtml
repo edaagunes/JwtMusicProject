@@ -1,22 +1,28 @@
-﻿<footer class="footer spad set-bg" data-setbg=@Url.Content("~/djoz-master/img/footer-bg.png")>
+﻿@model List<ResultContactDto>
+
+<footer class="footer spad set-bg" data-setbg=@Url.Content("~/djoz-master/img/footer-bg.png")>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="footer__address">
-                    <ul>
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            <p>Phone</p>
-                            <h6>1-677-124-44227</h6>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope"></i>
-                            <p>Email</p>
-                            <h6>DJ.Music@gmail.com</h6>
-                        </li>
-                    </ul>
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer__address">
+                        <ul>
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <p>Telefon</p>
+                                <h6>@item.Phone</h6>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope"></i>
+                                <p>Email</p>
+                                <h6>@item.Email</h6>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            }
+            
             <div class="col-lg-4 offset-lg-1 col-md-6">
                 <div class="footer__social">
                     <h2>DJoz</h2>
@@ -30,7 +36,7 @@
             </div>
             <div class="col-lg-3 offset-lg-1 col-md-6">
                 <div class="footer__newslatter">
-                    <h4>Stay With me</h4>
+                    <h4>İletişimde Kalalım</h4>
                     <form action="#">
                         <input type="text" placeholder="Email">
                         <button type="submit"><i class="fa fa-send-o"></i></button>
