@@ -20,7 +20,7 @@ namespace JwtMusic.BusinessLayer.Validations.SongValidations
 				.NotEmpty().WithMessage("Şarkıcı adı boş olamaz.")
 				.Length(3, 50).WithMessage("Şarkıcı adı 3 ile 50 karakter arasında olmalıdır.");
 
-			RuleFor(x => x.SongUrl)
+			RuleFor(x => x.SongFile)
 				.NotEmpty().WithMessage("Şarkı URL'si boş olamaz.");
 		}
 	}

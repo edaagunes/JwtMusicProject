@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Humanizer;
 using JwtMusic.BusinessLayer.Abstract;
 using JwtMusic.DtoLayer.SongDtos;
 using JwtMusic.EntityLayer.Entities;
@@ -43,19 +44,42 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
-		public IActionResult CreateSong(CreateSongDto createSongDto)
+		public async Task<IActionResult> CreateSong(CreateSongDto createSongDto)
 		{
 			ViewBag.v1 = "Müzikler";
 			ViewBag.v2 = "Müzikler";
 			ViewBag.v3 = "Yeni Müzik Ekle";
 
 			if (!ModelState.IsValid)
-			{
 				return View(createSongDto);
+
+			if (createSongDto.SongFile != null && createSongDto.SongFile.Length > 0)
+			{
+				var extension = Path.GetExtension(createSongDto.SongFile.FileName);
+
+				var rawName = $"{createSongDto.SongName}_{createSongDto.Singer}";
+				var safeName = string.Concat(rawName.Split(Path.GetInvalidFileNameChars()))
+					.Replace(" ", "_")
+					.ToLower();
+
+				var fileName = $"{safeName}_{Guid.NewGuid()}{extension}";
+				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/songs", fileName);
+
+				using (var stream = new FileStream(path, FileMode.Create))
+				{
+					await createSongDto.SongFile.CopyToAsync(stream);
+				}
+
+				var song = new Song
+				{
+					SongName = createSongDto.SongName,
+					Singer = createSongDto.Singer,
+					SongUrl = "songs/" + fileName
+				};
+
+				_songService.TAdd(song);
 			}
 
-			var values = _mapper.Map<Song>(createSongDto);
-			_songService.TAdd(values);
 			return RedirectToAction("SongList", "Song", new { area = "Admin" });
 		}
 
@@ -74,7 +98,7 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
-		public IActionResult UpdateSong(UpdateSongDto updateSongDto)
+		public async Task<IActionResult> UpdateSongAsync(UpdateSongDto updateSongDto)
 		{
 			ViewBag.v1 = "Müzikler";
 			ViewBag.v2 = "Müzikler";
@@ -85,9 +109,39 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 				return View(updateSongDto);
 			}
 
-			var values = _songService.TGetById(updateSongDto.SongId);
-			_mapper.Map(updateSongDto, values);
-			_songService.TUpdate(values);
+			var song = _songService.TGetById(updateSongDto.SongId);
+
+			// Yeni dosya yüklendiyse
+			song.SongName = updateSongDto.SongName;
+			song.Singer = updateSongDto.Singer;
+
+			if (updateSongDto.SongFile != null && updateSongDto.SongFile.Length > 0)
+			{
+				var extension = Path.GetExtension(updateSongDto.SongFile.FileName);
+
+				var rawName = $"{updateSongDto.SongName}_{updateSongDto.Singer}";
+				var safeName = string.Concat(rawName.Split(Path.GetInvalidFileNameChars()))
+					.Replace(" ", "_")
+					.ToLower();
+
+				var fileName = $"{safeName}_{Guid.NewGuid()}{extension}";
+				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/songs", fileName);
+
+				using (var stream = new FileStream(path, FileMode.Create))
+				{
+					await updateSongDto.SongFile.CopyToAsync(stream);
+				}
+
+				// Yeni dosya varsa eski url yerine yeni url'yi yaz
+				song.SongUrl = "songs/" + fileName;
+			}
+			else
+			{
+				// Dosya yüklenmediyse mevcut dosya yolunu koru
+				song.SongUrl = updateSongDto.SongUrl;
+			}
+
+			_songService.TUpdate(song);
 			return RedirectToAction("SongList", "Song", new { area = "Admin" });
 		}
 
