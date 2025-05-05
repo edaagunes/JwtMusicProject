@@ -1,10 +1,12 @@
 ﻿using JwtMusic.EntityLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtMusic.WebUI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[AllowAnonymous]
 	public class LoginController : Controller
 	{
 		private readonly SignInManager<AppUser> _signInManager;
@@ -34,9 +36,9 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 					var roles = await _userManager.GetRolesAsync(user);
 
 					if (roles.Contains("Admin"))
-						return RedirectToAction("BannerList", "Banner", new { area = "Admin" });
+						return RedirectToAction("SongList", "Song", new { area = "Admin" });
 					else
-						return RedirectToAction("BannerList", "Banner", new { area = "Admin" });
+						return RedirectToAction("SongList", "Song", new { area = "Admin" });
 				}
 			}
 

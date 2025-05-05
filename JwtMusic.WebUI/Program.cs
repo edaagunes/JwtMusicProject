@@ -7,16 +7,25 @@ using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.DataAccessLayer.Repositories;
 using JwtMusic.EntityLayer.Entities;
 using JwtMusic.WebUI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews()
-	.AddFluentValidation(config =>
-	{
-		config.RegisterValidatorsFromAssemblyContaining<CreateBannerValidator>();
-		config.RegisterValidatorsFromAssemblyContaining<UpdateBannerValidator>();
-	});
+builder.Services.AddControllersWithViews(options =>
+{
+	var policy = new AuthorizationPolicyBuilder()
+					.RequireAuthenticatedUser()
+					.Build();
+	options.Filters.Add(new AuthorizeFilter(policy));
+})
+.AddFluentValidation(config =>
+{
+	config.RegisterValidatorsFromAssemblyContaining<CreateBannerValidator>();
+	config.RegisterValidatorsFromAssemblyContaining<UpdateBannerValidator>();
+});
+
 
 // Add services to the container.
 
@@ -29,6 +38,11 @@ builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
 builder.Services.ContainerDependencies();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/Admin/Login/Index"; 
+});
 
 var app = builder.Build();
 
@@ -44,6 +58,10 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseRequestLocalization();
+
+// Error Page - 403
+app.UseStatusCodePagesWithReExecute("/Admin/ErrorPage/AccessDenied", "?code={0}");
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
