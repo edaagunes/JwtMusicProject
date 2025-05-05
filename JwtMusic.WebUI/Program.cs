@@ -19,11 +19,16 @@ builder.Services.AddControllersWithViews()
 	});
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<JwtMusicContext>();
 
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<JwtMusicContext>();
+
+builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+
+builder.Services.ContainerDependencies();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 
@@ -35,13 +40,8 @@ using (var scope = app.Services.CreateScope())
 
 	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 	await SeedUsers.CreateAdminUserAsync(userManager);
+	await SeedUsers.CreateMemberUserAsync(userManager);
 }
-
-builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
-
-builder.Services.ContainerDependencies();
-
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 app.UseRequestLocalization();
 

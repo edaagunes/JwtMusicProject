@@ -25,6 +25,28 @@ namespace JwtMusic.WebUI.Helpers
 				}
 			}
 		}
+
+		public static async Task CreateMemberUserAsync(UserManager<AppUser> userManager)
+		{
+			var member = await userManager.FindByEmailAsync("member@example.com");
+			if (member == null)
+			{
+				var user = new AppUser
+				{
+					UserName = "member",
+					Email = "member@example.com",
+					FullName = "Member",
+					EmailConfirmed = true
+				};
+
+				var result = await userManager.CreateAsync(user, "Member123!");
+				if (result.Succeeded)
+				{
+					await userManager.AddToRoleAsync(user, "Member");
+				}
+			}
+		}
+
 	}
 }
 
