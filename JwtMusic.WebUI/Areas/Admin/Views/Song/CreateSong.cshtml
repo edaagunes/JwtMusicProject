@@ -1,0 +1,52 @@
+﻿@model CreateSongDto
+@{
+    ViewData["Title"] = "CreateSong";
+    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title d-flex justify-content-center">Yeni Müzik Ekle</div>
+			</div>
+			<form method="post">
+				<div class="card-body">
+					<div class="row justify-content-center">
+						<div class="col-md-12 col-lg-8">
+							<div class="form-group">
+								<label>Şarkı Adı</label>
+								<input type="text"
+									   class="form-control"
+									   asp-for="SongName" />
+								<span asp-validation-for="SongName" class="text-danger"></span>
+							</div>
+							<div class="form-group form-inline">
+								<label class="col-md-3 col-form-label">Şarkıcı</label>
+								<div class="col-md-9 p-0">
+									<input type="text"
+										   class="form-control input-full"
+										   asp-for="Singer" />
+									<span asp-validation-for="Singer" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Şarkı Url</label>
+								<textarea class="form-control" asp-for="SongUrl" rows="3">
+						  </textarea>
+								<span asp-validation-for="SongUrl" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-action d-flex justify-content-center">
+					<button type="submit" class="btn btn-success">Kaydet</button>
+					<a href="/Admin/Song/SongList" class="btn btn-danger">Vazgeç</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,113 @@
+﻿@model List<ResultSongDto>
+@{
+    ViewData["Title"] = "SongList";
+    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Müzik Alanı</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Şarkı</th>
+                            <th scope="col">Şarkıcı</th>
+                            <th scope="col">Url</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.SongName</td>
+                                <td>@item.Singer</td>
+                                <td>@item.SongUrl</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-danger" data-url="/Admin/Song/DeleteSong/@item.SongId">Sil</a>
+                                    <a href="/Admin/Song/UpdateSong/@item.SongId" class="btn btn-warning">Güncelle</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a href="/Admin/Song/CreateSong" class="btn btn-secondary">
+                    <span class="btn-label">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                    Yeni Şarkı Ekle
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    $(document).on('click', '.btn-danger', function (e) {
+        e.preventDefault(); // Sayfa yeniden yüklenmesin
+
+        var deleteUrl = $(this).attr('data-url'); // Silme URL'sini al
+        swal({
+            title: "Emin misiniz?",
+            text: "Bu işlemi geri almanız mümkün olmayacak!",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "Hayır, iptal et!",
+                    className: "btn btn-danger",
+                },
+                confirm: {
+                    text: "Evet, sil!",
+                    className: "btn btn-success",
+                },
+            },
+        }).then((willDelete) => {
+            if (willDelete) {
+                // Silme işlemini onayladıysa, AJAX ile silme işlemi yapılır
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Başarılı!", "Veri başarıyla silindi.", "success")
+                                .then(function () {
+                                    // Sayfadan da öğeyi kaldır
+                                    $(e.target).closest('tr').remove();  // Silinen satırı tablodan kaldır
+                                });
+                        } else {
+                            swal("Hata!", response.message, "error");
+                        }
+                    },
+                    error: function () {
+                        swal("Hata!", "Bir hata oluştu. Lütfen tekrar deneyin.", "error");
+                    }
+                });
+            } else {
+                swal("İşlem iptal edildi!", {
+                    icon: "info",
+                    buttons: {
+                        confirm: {
+                            className: "btn btn-success",
+                        },
+                    },
+                }).then(function () {
+                    swal.hide();
+                });
+            }
+        });
+    });
+</script>
+

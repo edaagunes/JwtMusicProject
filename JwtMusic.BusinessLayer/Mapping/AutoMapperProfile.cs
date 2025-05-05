@@ -4,6 +4,7 @@ using JwtMusic.DtoLayer.ContactDtos;
 using JwtMusic.DtoLayer.CountDownDtos;
 using JwtMusic.DtoLayer.DjInfoDtos;
 using JwtMusic.DtoLayer.EventDtos;
+using JwtMusic.DtoLayer.SongDtos;
 using JwtMusic.EntityLayer.Entities;
 
 
@@ -32,6 +33,10 @@ namespace JwtMusic.BusinessLayer.Mapping
 			CreateMap<Event, ResultEventDto>().ReverseMap();
 			CreateMap<Event, CreateEventDto>().ReverseMap();
 			CreateMap<Event, UpdateEventDto>().ReverseMap();
+
+			CreateMap<Song, ResultSongDto>().ReverseMap();
+			CreateMap<Song, CreateSongDto>().ReverseMap();
+			CreateMap<Song, UpdateSongDto>().ReverseMap();
 
 		}
 	}

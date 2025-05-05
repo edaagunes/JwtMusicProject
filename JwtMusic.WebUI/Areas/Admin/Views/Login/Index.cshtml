@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+            .login-form h2 {
+                text-align: center;
+                margin-bottom: 30px;
+                color: #333;
+            }
+
+        .btn-custom {
+            background-color: #2575fc;
+            color: white;
+        }
+
+            .btn-custom:hover {
+                background-color: #1a5cd8;
+            }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #2575fc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-form">
+        <form method="post">
+            <h2>Admin Paneli</h2>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Kullanıcı Adı</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Kullanıcı adınızı girin" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Şifrenizi girin" required />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Giriş Yap</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

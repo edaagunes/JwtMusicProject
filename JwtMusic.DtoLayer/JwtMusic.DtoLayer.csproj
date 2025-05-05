@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="SongDtos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\JwtMusic.EntityLayer\JwtMusic.EntityLayer.csproj" />
   </ItemGroup>
 
