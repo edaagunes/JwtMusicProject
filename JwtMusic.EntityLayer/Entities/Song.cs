@@ -12,5 +12,6 @@ namespace JwtMusic.EntityLayer.Entities
 		public string SongName { get; set; }
 		public string Singer { get; set; }
 		public string SongUrl { get; set; }
+		public ICollection<Package> Packages { get; set; }
 	}
 }

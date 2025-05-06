@@ -6,6 +6,7 @@ using JwtMusic.BusinessLayer.Validations.ContactValidations;
 using JwtMusic.BusinessLayer.Validations.CountDownValidations;
 using JwtMusic.BusinessLayer.Validations.DjInfoValidations;
 using JwtMusic.BusinessLayer.Validations.EventValidations;
+using JwtMusic.BusinessLayer.Validations.PackageValidations;
 using JwtMusic.BusinessLayer.Validations.SongValidations;
 using JwtMusic.DataAccessLayer.Abstract;
 using JwtMusic.DataAccessLayer.EntityFramework;
@@ -35,6 +36,9 @@ namespace JwtMusic.BusinessLayer.Container
 			services.AddScoped<ISongService, SongManager>();
 			services.AddScoped<ISongDal, EfSongDal>();
 
+			services.AddScoped<IPackageService, PackageManager>();
+			services.AddScoped<IPackageDal, EfPackageDal>();
+
 			// Validators
 			services.AddValidatorsFromAssemblyContaining<CreateBannerValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdateBannerValidator>();
@@ -53,6 +57,9 @@ namespace JwtMusic.BusinessLayer.Container
 
 			services.AddValidatorsFromAssemblyContaining<CreateSongValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdateSongValidator>();
+
+			services.AddValidatorsFromAssemblyContaining<CreatePackageValidator>();
+			services.AddValidatorsFromAssemblyContaining<UpdatePackageValidator>();
 		}
 	}
 }

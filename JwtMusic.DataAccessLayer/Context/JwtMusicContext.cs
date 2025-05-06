@@ -22,5 +22,6 @@ namespace JwtMusic.DataAccessLayer.Context
 		public DbSet<DjInfo> DjInfos { get; set; }
 		public DbSet<Event> Events { get; set; }
 		public DbSet<Song> Songs { get; set; }
+		public DbSet<Package> Packages { get; set; }
 	}
 }
