@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using JwtMusic.BusinessLayer.Abstract;
 using JwtMusic.BusinessLayer.Concrete;
+using JwtMusic.BusinessLayer.Validations.AppUserValidations;
 using JwtMusic.BusinessLayer.Validations.BannerValidations;
 using JwtMusic.BusinessLayer.Validations.ContactValidations;
 using JwtMusic.BusinessLayer.Validations.CountDownValidations;
@@ -39,6 +40,9 @@ namespace JwtMusic.BusinessLayer.Container
 			services.AddScoped<IPackageService, PackageManager>();
 			services.AddScoped<IPackageDal, EfPackageDal>();
 
+			services.AddScoped<IAppUserService, AppUserManager>();
+			services.AddScoped<IAppUserDal, EfAppUserDal>();
+
 			// Validators
 			services.AddValidatorsFromAssemblyContaining<CreateBannerValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdateBannerValidator>();
@@ -60,6 +64,8 @@ namespace JwtMusic.BusinessLayer.Container
 
 			services.AddValidatorsFromAssemblyContaining<CreatePackageValidator>();
 			services.AddValidatorsFromAssemblyContaining<UpdatePackageValidator>();
+
+			services.AddValidatorsFromAssemblyContaining<UpdateAppUserValidator>();
 		}
 	}
 }

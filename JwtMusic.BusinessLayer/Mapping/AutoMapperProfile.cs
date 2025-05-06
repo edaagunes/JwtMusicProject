@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JwtMusic.DtoLayer.AppUserDtos;
 using JwtMusic.DtoLayer.BannerDtos;
 using JwtMusic.DtoLayer.ContactDtos;
 using JwtMusic.DtoLayer.CountDownDtos;
@@ -42,6 +43,9 @@ namespace JwtMusic.BusinessLayer.Mapping
 			CreateMap<Package, ResultPackageDto>().ReverseMap();
 			CreateMap<Package, CreatePackageDto>().ReverseMap();
 			CreateMap<Package, UpdatePackageDto>().ReverseMap();
+
+			CreateMap<AppUser, ResultAppUserDto>().ReverseMap();
+			CreateMap<AppUser, UpdateAppUserDto>().ReverseMap();
 		}
 	}
 }

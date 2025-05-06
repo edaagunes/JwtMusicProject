@@ -1,10 +1,12 @@
 ﻿using JwtMusic.EntityLayer.Entities;
 using JwtMusic.WebUI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtMusic.WebUI.Controllers
 {
+	[AllowAnonymous]
 	public class UserLoginController : Controller
 	{
 		private readonly SignInManager<AppUser> _signInManager;

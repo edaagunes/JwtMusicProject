@@ -50,7 +50,8 @@ namespace JwtMusic.WebUI.Controllers
 
 			if (result.Succeeded)
 			{
-				return RedirectToAction("Login", "UserLogin");
+				await _userManager.AddToRoleAsync(user, "User");
+				return RedirectToAction("Index", "UserLogin");
 			}
 
 			foreach (var error in result.Errors)
