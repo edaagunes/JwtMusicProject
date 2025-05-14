@@ -8,6 +8,7 @@ namespace JwtMusic.DtoLayer.AppUserDtos
 {
 	public class UpdateAppUserDto
 	{
+		public int Id { get; set; }
 		public string FullName { get; set; }
 		public int? PackageId { get; set; }
 	}

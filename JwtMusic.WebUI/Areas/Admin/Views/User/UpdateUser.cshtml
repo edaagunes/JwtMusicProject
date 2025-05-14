@@ -1,0 +1,45 @@
+﻿@model UpdateAppUserDto
+@{
+    ViewData["Title"] = "UpdateUser";
+    Layout = "~/Areas/Admin/Views/Layout/Index.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title d-flex justify-content-center">Kullanıcıyı Güncelle</div>
+			</div>
+			<form method="post">
+				<div class="card-body">
+					<div class="row justify-content-center">
+						<div class="col-md-12 col-lg-8">
+							<input type="hidden" asp-for="Id" />
+							<div class="form-group">
+								<label>Ad Soyad</label>
+								<input type="text"
+									   class="form-control"
+									   asp-for="FullName" />
+								<span asp-validation-for="FullName" class="text-danger"></span>
+							</div>
+							<div class="form-group form-inline">
+								<label class="col-md-3 col-form-label">Paket Bilgisi</label>
+								<div class="col-md-9 p-0">
+									<select asp-for="PackageId" asp-items="ViewBag.Packages" class="form-control input-full">
+										<option value="">Paket Seçin</option>
+									</select>
+									<span asp-validation-for="PackageId" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-action d-flex justify-content-center">
+					<button type="submit" class="btn btn-success">Kaydet</button>
+					<a href="/Admin/User/UserList" class="btn btn-danger">Vazgeç</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
