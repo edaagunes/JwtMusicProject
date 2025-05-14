@@ -55,7 +55,7 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult DeleteBanner(int id)
+		public IActionResult DeleteUser(int id)
 		{
 			var values = _appUserService.TGetById(id);
 			if (values != null)

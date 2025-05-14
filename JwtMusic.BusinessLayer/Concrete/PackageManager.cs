@@ -33,6 +33,16 @@ namespace JwtMusic.BusinessLayer.Concrete
 			return _packageDal.GetById(id);
 		}
 
+		public Package TGetPackageWithSongsById(int id)
+		{
+			return _packageDal.GetPackageWithSongsById(id);
+		}
+
+		public List<Song> TGetSongsByPackageId(int packageId)
+		{
+			return _packageDal.GetSongsByPackageId(packageId);
+		}
+
 		public void TUpdate(Package entity)
 		{
 			_packageDal.Update(entity);

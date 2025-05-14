@@ -9,5 +9,7 @@ namespace JwtMusic.DataAccessLayer.Abstract
 {
 	public interface IPackageDal : IGenericDal<Package>
 	{
+		List<Song> GetSongsByPackageId(int packageId);
+		Package GetPackageWithSongsById(int id);
 	}
 }

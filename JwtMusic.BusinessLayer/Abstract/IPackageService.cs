@@ -9,5 +9,7 @@ namespace JwtMusic.BusinessLayer.Abstract
 {
 	public interface IPackageService : IGenericService<Package>
 	{
+		List<Song> TGetSongsByPackageId(int packageId);
+		Package TGetPackageWithSongsById(int id);
 	}
 }
