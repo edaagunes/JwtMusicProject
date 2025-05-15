@@ -5,6 +5,48 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<style>
+	.jp-progress {
+		background-color: #eee;
+		height: 6px;
+		width: 80%;
+		border-radius: 3px;
+		margin-top: 10px;
+		position: relative;
+	}
+
+	.jp-seek-bar {
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.jp-play-bar {
+		background-color: #2196f3;
+		height: 100%;
+		width: 0%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		border-radius: 3px;
+	}
+
+	.jp-current-time,
+	.jp-duration {
+		font-size: 12px;
+		color: #333;
+		margin-top: 3px;
+	}
+
+	.jp-duration {
+		float: right;
+	}
+</style>
+
 
 <section class="track spad">
 	<div class="container">
@@ -100,14 +142,24 @@
 			});
 		});
 
-			$('.jp-play').click(function (e) {
+				$('.jp-play').click(function (e) {
 		e.preventDefault();
 
 		const button = $(this);
 		const songUrl = button.data('url');
 		const playerId = button.data('player-id');
+		const player = $('#' + playerId);
 		const token = localStorage.getItem('jwtToken');
 
+		const jPlayerInstance = player.data("jPlayer");
+
+		// Eğer şarkı zaten çalıyorsa: durdur
+		if (jPlayerInstance && !jPlayerInstance.status.paused) {
+			player.jPlayer("pause");
+			return;
+		}
+
+		// Yetki kontrolü için fetch isteği
 		fetch('/api/SongAccess/PlaySong', {
 			method: 'POST',
 			headers: {
@@ -117,6 +169,17 @@
 			body: JSON.stringify({ songUrl: songUrl })
 		})
 		.then(response => {
+			if (response.status === 401) {
+				$('.jplayer').jPlayer("stop"); // Çalan şarkıları durdur
+				Swal.fire({
+					icon: 'warning',
+					title: 'Yetkiniz Yok',
+					text: 'Bu şarkıya erişim izniniz bulunmamaktadır.',
+					confirmButtonText: 'Tamam'
+				});
+				throw new Error("Unauthorized");
+			}
+
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
@@ -124,17 +187,38 @@
 		})
 		.then(data => {
 			if (data.success) {
-				$('.jplayer').jPlayer("stop"); // Diğer çalanları durdur
-				$('#' + playerId).jPlayer("setMedia", { mp3: songUrl }).jPlayer("play");
+				// Diğer çalan şarkıları durdur
+				$('.jplayer').not(player).each(function () {
+					$(this).jPlayer("stop");
+				});
+
+				// Bu şarkıyı çal
+				player.jPlayer("setMedia", { mp3: songUrl }).jPlayer("play");
 			} else {
-				alert(data.message);
+				$('.jplayer').jPlayer("stop");
+				Swal.fire({
+					icon: 'warning',
+					title: 'Erişim Engellendi',
+					text: 'Bu şarkı seçtiğiniz pakete dahil değil.',
+					confirmButtonText: 'Tamam'
+				});
 			}
 		})
 		.catch(error => {
-			alert("Bir hata oluştu. Lütfen tekrar giriş yapınız.");
-			window.location.href = '/UserLogin/Index';
+			if (error.message === "Unauthorized") return;
+
+			$('.jplayer').jPlayer("stop");
+			Swal.fire({
+				icon: 'error',
+				title: 'Erişim Engellendi',
+				text: 'Bu şarkı seçtiğiniz pakete dahil değil.',
+				confirmButtonText: 'Giriş Sayfasına Git'
+			}).then(() => {
+				window.location.href = '/UserLogin/Index';
+			});
 		});
 	});
 
 	});
+
 </script>
