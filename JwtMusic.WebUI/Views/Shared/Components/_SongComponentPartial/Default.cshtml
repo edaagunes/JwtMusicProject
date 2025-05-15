@@ -3,6 +3,9 @@
 	var index = 0;
 }
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
+
 <section class="track spad">
 	<div class="container">
 		<div class="row">
@@ -22,49 +25,35 @@
 						var containerId = "jp_container_" + index;
 						<div class="single_player_container">
 							<h4>@item.SongName - @item.Singer</h4>
-							<div id="@playerId" class="jp-jplayer jplayer" data-ancestor="#@containerId"
-							data-url="@Url.Content("~/" + item.SongUrl)"></div>
+							<div id="@playerId" class="jp-jplayer jplayer" data-ancestor="#@containerId" data-url="@Url.Content("~/" + item.SongUrl)"></div>
 							<div id="@containerId" class="jp-audio" role="application" aria-label="media player">
 								<div class="jp-gui jp-interface">
 									<!-- Player Controls -->
 									<div class="player_controls_box">
-										<button class="jp-play player_button" tabindex="0"></button>
+										<button class="jp-play player_button" data-player-id="@playerId" data-url="@Url.Content("~/" + item.SongUrl)" tabindex="0"></button>
 									</div>
 									<!-- Progress Bar -->
 									<div class="player_bars">
 										<div class="jp-progress">
-											<div class="jp-seek-bar">
-												<div>
-													<div class="jp-play-bar">
-														<div class="jp-current-time" role="timer" aria-label="time">
-															0:00
-														</div>
-													</div>
-												</div>
-											</div>
+											<div class="jp-seek-bar"><div class="jp-play-bar"><div class="jp-current-time">0:00</div></div></div>
 										</div>
-										<div class="jp-duration ml-auto" role="timer" aria-label="duration">00:00</div>
+										<div class="jp-duration ml-auto">00:00</div>
 									</div>
 									<!-- Volume Controls -->
 									<div class="jp-volume-controls">
-										<button class="jp-mute" tabindex="0">
-											<i class="fa fa-volume-down"></i>
-										</button>
-										<div class="jp-volume-bar">
-											<div class="jp-volume-bar-value" style="width: 0%;"></div>
-										</div>
+										<button class="jp-mute" tabindex="0"><i class="fa fa-volume-down"></i></button>
+										<div class="jp-volume-bar"><div class="jp-volume-bar-value" style="width: 0%;"></div></div>
 									</div>
 								</div>
 							</div>
 						</div>
 						index++;
 					}
-
 				</div>
 			</div>
 			<div class="col-lg-5 p-0">
 				<div class="track__pic">
-					<img src="~/djoz-master/img/track-right.jpg" alt="">
+					<img src="~/djoz-master/img/concert.png" style="width: 600px" alt="">
 				</div>
 			</div>
 		</div>
@@ -72,43 +61,80 @@
 </section>
 
 <script>
-		$(".jplayer").each(function () {
-		var player = $(this);
-		var ancestor = player.data("ancestor");
-		var url = player.data("url");
+	$(document).ready(function () {
+		$(".jplayer").each(function (index) {
+			var player = $(this);
+			var ancestor = player.data("ancestor");
+			var url = player.data("url");
+			var playerId = player.attr("id");
 
-		player.jPlayer({
-			ready: function () {
-				$(this).jPlayer("setMedia", {
-					mp3: url
-				});
-			},
-			swfPath: "/js",
-			supplied: "mp3",
-			cssSelectorAncestor: ancestor,
-			wmode: "window",
-			useStateClassSkin: true,
-			autoBlur: false,
-			smoothPlayBar: true,
-			keyEnabled: true,
-			remainingDuration: true,
-			toggleDuration: true
+			player.jPlayer({
+				ready: function () {
+					$(this).jPlayer("setMedia", { mp3: url });
+				},
+				swfPath: "/js",
+				supplied: "mp3",
+				cssSelectorAncestor: ancestor,
+				wmode: "window",
+				useStateClassSkin: true,
+				autoBlur: false,
+				smoothPlayBar: true,
+				keyEnabled: true,
+				remainingDuration: true,
+				toggleDuration: true
+			});
+
+			// Volume bar interaction
+			var volumeBar = $(ancestor).find(".jp-volume-bar");
+			var volumeValue = $(ancestor).find(".jp-volume-bar-value");
+
+			volumeBar.on("click", function (e) {
+				var offset = $(this).offset();
+				var x = e.pageX - offset.left;
+				var width = $(this).width();
+				var volume = x / width;
+				volume = Math.max(0, Math.min(1, volume));
+
+				player.jPlayer("volume", volume);
+				volumeValue.css("width", (volume * 100) + "%");
+			});
 		});
 
-		// Volume bar tıklanabilirlik
-		var volumeBar = $(ancestor).find(".jp-volume-bar");
-		var volumeValue = $(ancestor).find(".jp-volume-bar-value");
+			$('.jp-play').click(function (e) {
+		e.preventDefault();
 
-		volumeBar.on("click", function (e) {
-			var offset = $(this).offset();
-			var x = e.pageX - offset.left;
-			var width = $(this).width();
-			var volume = x / width;
+		const button = $(this);
+		const songUrl = button.data('url');
+		const playerId = button.data('player-id');
+		const token = localStorage.getItem('jwtToken');
 
-			volume = Math.max(0, Math.min(1, volume)); // 0 ile 1 arası kal
-			player.jPlayer("volume", volume); // sesi ayarla
-			volumeValue.css("width", (volume * 100) + "%"); // görsel olarak da güncelle
+		fetch('/api/SongAccess/PlaySong', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			},
+			body: JSON.stringify({ songUrl: songUrl })
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (data.success) {
+				$('.jplayer').jPlayer("stop"); // Diğer çalanları durdur
+				$('#' + playerId).jPlayer("setMedia", { mp3: songUrl }).jPlayer("play");
+			} else {
+				alert(data.message);
+			}
+		})
+		.catch(error => {
+			alert("Bir hata oluştu. Lütfen tekrar giriş yapınız.");
+			window.location.href = '/UserLogin/Index';
 		});
 	});
 
+	});
 </script>

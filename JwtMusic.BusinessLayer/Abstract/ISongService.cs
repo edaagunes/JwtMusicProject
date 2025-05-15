@@ -9,5 +9,6 @@ namespace JwtMusic.BusinessLayer.Abstract
 {
 	public interface ISongService : IGenericService<Song>
 	{
+		Task<Song> TGetSongByUrl(string songUrl);
 	}
 }

@@ -9,5 +9,6 @@ namespace JwtMusic.DataAccessLayer.Abstract
 {
 	public interface ISongDal : IGenericDal<Song>
 	{
+		Task<Song> GetSongByUrl(string songUrl);
 	}
 }

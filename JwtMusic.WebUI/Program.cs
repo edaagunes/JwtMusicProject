@@ -7,9 +7,12 @@ using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.DataAccessLayer.Repositories;
 using JwtMusic.EntityLayer.Entities;
 using JwtMusic.WebUI.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,23 @@ builder.Services.AddControllersWithViews(options =>
 	config.RegisterValidatorsFromAssemblyContaining<UpdateBannerValidator>();
 });
 
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = false,
+		ValidateAudience = false,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("JwtMusicProject+*010203JWTMUSIC01+*..020304JwtMusicProject"))
+	};
+});
+
 
 // Add services to the container.
 
@@ -34,6 +54,8 @@ builder.Services.AddDbContext<JwtMusicContext>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<JwtMusicContext>();
 
 builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+
+builder.Services.AddScoped<JwtTokenHelper>();
 
 builder.Services.ContainerDependencies();
 

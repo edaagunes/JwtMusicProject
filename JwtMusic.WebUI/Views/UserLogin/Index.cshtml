@@ -89,7 +89,30 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $("form").on("submit", function (e) {
+            e.preventDefault(); // Formun klasik gönderimini engelle
+
+            var username = $("input[name='Username']").val();
+            var password = $("input[name='Password']").val();
+
+            $.post("/UserLogin/LoginJson", { username: username, password: password })
+                .done(function (res) {
+                    if (res.success) {
+                        localStorage.setItem("jwtToken", res.token);
+                        window.location.href = "/UILayout/Index";
+                    } else {
+                        alert("Giriş başarısız.");
+                    }
+                });
+        });
+    });
+</script>
 

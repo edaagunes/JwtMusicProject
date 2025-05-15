@@ -52,10 +52,6 @@ namespace JwtMusic.WebUI.Areas.Admin.Controllers
 			ViewBag.v2 = "Paketler";
 			ViewBag.v3 = "Yeni Paket Ekle";
 
-			ViewBag.v1 = "Paketler";
-			ViewBag.v2 = "Paketler";
-			ViewBag.v3 = "Yeni Paket Ekle";
-
 			var songs = _songService.TGetAll();
 			ViewBag.Songs = new SelectList(songs, "SongId", "SongName");
 

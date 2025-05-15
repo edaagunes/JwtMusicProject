@@ -10,5 +10,6 @@ namespace JwtMusic.BusinessLayer.Abstract
 	public interface IAppUserService : IGenericService<AppUser>
 	{
 		List<AppUser> TGetPackageNameWithUserList();
+		Task<AppUser> TGetUserById(int userId);
 	}
 }

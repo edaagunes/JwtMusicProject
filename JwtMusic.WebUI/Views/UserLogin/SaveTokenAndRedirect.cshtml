@@ -1,0 +1,12 @@
+﻿
+@{
+    Layout = null;
+}
+
+<script>
+	const token = '@ViewBag.Token';
+	if (token) {
+		localStorage.setItem('jwtToken', token); // Token'ı sakla
+		 location.replace('/UILayout/Index');    // Anasayfaya yönlendir
+	}
+</script>

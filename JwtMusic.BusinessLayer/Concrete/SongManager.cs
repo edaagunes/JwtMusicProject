@@ -33,6 +33,11 @@ namespace JwtMusic.BusinessLayer.Concrete
 			return _songDal.GetById(id);
 		}
 
+		public Task<Song> TGetSongByUrl(string songUrl)
+		{
+			return _songDal.GetSongByUrl(songUrl);
+		}
+
 		public void TUpdate(Song entity)
 		{
 			_songDal.Update(entity);

@@ -44,6 +44,11 @@ namespace JwtMusic.BusinessLayer.Concrete
 			return _appUserDal.GetPackageNameWithUserList();
 		}
 
+		public Task<AppUser> TGetUserById(int userId)
+		{
+			return _appUserDal.GetUserById(userId);
+		}
+
 		public void TUpdate(AppUser entity)
 		{
 			_appUserDal.Update(entity);

@@ -10,5 +10,6 @@ namespace JwtMusic.DataAccessLayer.Abstract
 	public interface IAppUserDal : IGenericDal<AppUser>
 	{
 		List<AppUser> GetPackageNameWithUserList();
+		Task<AppUser> GetUserById(int userId);
 	}
 }

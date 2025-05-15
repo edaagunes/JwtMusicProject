@@ -36,7 +36,9 @@ namespace JwtMusic.BusinessLayer.Mapping
 			CreateMap<Event, CreateEventDto>().ReverseMap();
 			CreateMap<Event, UpdateEventDto>().ReverseMap();
 
-			CreateMap<Song, ResultSongDto>().ReverseMap();
+			CreateMap<Song, ResultSongDto>()
+			.ForMember(dest => dest.PackageIds, opt => opt.MapFrom(src => src.Packages.Select(p => p.PackageId).ToList())).ReverseMap();
+
 			CreateMap<Song, CreateSongDto>().ReverseMap();
 			CreateMap<Song, UpdateSongDto>().ReverseMap();
 
