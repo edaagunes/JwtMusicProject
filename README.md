@@ -68,7 +68,7 @@ Web sitesindeki alanlar dinamik olarak yönetilebilir. Tüm alanların CRUD işl
 
 * Müzikler menüsünde yeni müzik ekleme ve var olan müziği güncelleme işlemini sadece Admin rolüne sahip kullanıcı yapabilir.
  
-   * Member rolündeki kullanıcı yeni müzik eklemeye çalıştığında 401(Unauthorized) sayfası ile uyarı verilir.
+   * Member rolündeki kullanıcı yeni müzik eklemeye çalıştığında 403(Forbidden) sayfası ile uyarı verilir.
  
 * Kullanıcılar menüsünde User rolüne sahip kullanıcılar listelenir. Güncelle butonu ile kullanıcının paket bilgisi değiştirilebilir.
 
