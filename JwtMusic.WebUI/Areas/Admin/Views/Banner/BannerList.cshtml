@@ -30,7 +30,7 @@
 								<td>@count</td>
 								<td>@item.SubTitle</td>
 								<td>@item.Title</td>
-								<td>@item.Description</td>
+								<td>@item.Description.Substring(0,30)...</td>
 								<td>
 									<a href="javascript:void(0);" class="btn btn-danger" data-url="/Admin/Banner/DeleteBanner/@item.BannerId">Sil</a>
 									<a href="/Admin/Banner/UpdateBanner/@item.BannerId" class="btn btn-warning">Güncelle</a>

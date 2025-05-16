@@ -55,14 +55,5 @@ namespace JwtMusic.WebUI.Controllers
 			return BadRequest(new { success = false, message = "Pakete dahil olmayan şarkı." });
 		}
 
-		[HttpGet("TestUrl")]
-		public async Task<IActionResult> TestUrl(string url)
-		{
-			var song = await _songService.TGetSongByUrl(url);
-			if (song == null)
-				return NotFound("Bulunamadı: " + url);
-
-			return Ok("Bulundu: " + song.SongName);
-		}
 	}
 }

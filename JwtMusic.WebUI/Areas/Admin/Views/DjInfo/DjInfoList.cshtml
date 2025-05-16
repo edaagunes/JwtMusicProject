@@ -28,7 +28,7 @@
                             <tr>
                                 <td>@count</td>
                                 <td>@item.Name</td>
-                                <td>@item.Description</td>
+                                <td>@item.Description.Substring(0,50)...</td>
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-danger" data-url="/Admin/DjInfo/DeleteDjInfo/@item.DjInfoId">Sil</a>
                                     <a href="/Admin/DjInfo/UpdateDjInfo/@item.DjInfoId" class="btn btn-warning">Güncelle</a>

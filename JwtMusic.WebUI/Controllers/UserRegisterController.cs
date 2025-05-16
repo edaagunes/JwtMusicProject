@@ -1,6 +1,7 @@
 ﻿using JwtMusic.DataAccessLayer.Context;
 using JwtMusic.EntityLayer.Entities;
 using JwtMusic.WebUI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JwtMusic.WebUI.Controllers
 {
+	[AllowAnonymous]
 	public class UserRegisterController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;
